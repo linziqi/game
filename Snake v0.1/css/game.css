@@ -1,0 +1,15 @@
+body{background:#ececec;}
+.htmlBox{width:780px;margin:0 auto;position:relative;}
+.title{height:40px;line-height:40px;}
+.gameBox{width:600px;height:520px;background:#bfed57;border:1px solid #cdcdcd;position:relative;overflow:hidden;}
+.snake,.food{width:16px;height:16px;position:absolute;}
+.snake{background:#049c04;border-radius:10px;border:2px solid #022100;}
+.first{background:#018a01;z-index:100;border-radius:8px;border:2px solid #022100;}
+.food{background:#cc0605;border-radius:10px;border:2px solid #022100;}
+
+.btnBox{width:150px; height:520px;background:#fff;border:1px solid #cdcdcd;position:absolute;right:0;top:40px;}
+.btnBox .game,.btnBox .newGame,.btnBox .pause,.btnBox .start{width:100px;height:40px;line-height:40px;margin:10px auto 0;text-align:center;}
+.btnBox .game{background: #059C37;color:#fff;}
+.btnBox .newGame{background: #33bc60;color:#fff;}
+.btnBox .pause{background: #ff6245;color:#fff;}
+.btnBox .start{background: #ffa445;color:#fff;}
