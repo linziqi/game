@@ -3,14 +3,51 @@ var class_game=function(opt){
 	self.speed=opt.speed;
 	self.gridNum=opt.gridNum;
 };
-
-
 class_game.prototype={
 	init:function(){
 		var self=this;
 		self.initDom();
 		self.snakeDom();
 		self.initEvent();
+		self.directionEvent();
+	},
+	//键盘事件
+	directionEvent:function(){
+		var self=this;
+		$(document).bind('keydown',function(e){
+			if(self.key==1){
+				return;
+			}
+			if(e.keyCode==37){
+				if(self.directionGrid==-self.gridNum && self.direction=='right'){
+					return;
+				}
+				self.direction='right';
+				self.directionGrid=self.gridNum;
+				self.key=1;
+			}else if(e.keyCode==38){
+				if(self.directionGrid==self.gridNum && self.direction=='top'){
+					return;
+				}
+				self.direction='top';
+				self.directionGrid=-self.gridNum;
+				self.key=1;
+			}else if(e.keyCode==39){
+				if(self.directionGrid==self.gridNum && self.direction=='right'){
+					return;
+				}
+				self.direction='right';
+				self.directionGrid=-self.gridNum;
+				self.key=1;
+			}else if(e.keyCode==40){
+				if(self.directionGrid==-self.gridNum && self.direction=='top'){
+					return;
+				}
+				self.direction='top';
+				self.directionGrid=self.gridNum;
+				self.key=1;
+			}
+		});
 	},
 	//游戏Dom
 	initDom:function(){
@@ -18,7 +55,7 @@ class_game.prototype={
 		var template='';
 		template+=''+
 		'<div class="htmlBox">'+
-			'<div class="title">贪吃蛇 v0.1版本, 作者：弑天泣</div>'+
+			'<div class="title">贪吃蛇 v1.0版本, 作者：弑天泣</div>'+
 			'<div class="gameBox">'+
 			'</div>'+
 			'<div class="btnBox">'+
@@ -58,7 +95,6 @@ class_game.prototype={
 		var self=this;
 		self.snakeDom();
 		self.direction='right';
-		self.directionEvent();
 		self.gameProcess();
 	},
 	//蛇Dom
@@ -77,11 +113,10 @@ class_game.prototype={
 		var self=this;
 		self.directionGrid=self.gridNum;
 		self.snakeAction=setInterval(function(){
-			//食物事件和撞击事件
+			//食物事件
 			self.foodEvent();
-			if($('.food').length<1){
-				self.foodDom();
-			}
+			//撞击事件
+			self.gameOver();
 			//蛇身跟着蛇头移动
 			for (var i = $('.snake').length; i > 0; i--) {
 				$('.snake').eq(i).css('right',parseInt($('.snake').eq(i-1).css('right')));
@@ -91,6 +126,9 @@ class_game.prototype={
 			self.directionNum=parseInt($('.first').css(self.direction));
 			self.directionNum+=self.directionGrid;
 			$('.first').css(self.direction,self.directionNum);
+			//保存行走方向
+			self.passDirection=self.direction;
+			self.passDirectionNum=self.directionNum;
 			self.key=0;
 		},self.speed)
 	},
@@ -119,56 +157,30 @@ class_game.prototype={
 		var self=this;
 		self.firstX=parseInt($('.first').css('right'));
 		self.firstY=parseInt($('.first').css('top'));
+		//吃掉食物增加长度
 		if(self.firstX==self.foodX&&self.firstY==self.foodY){
 			$('.food').remove();
 			$('.gameBox').append('<div class="snake"></div>');
 		}
+		//创建食物
+		if($('.food').length<1){
+			self.foodDom();
+		}
+	},
+	//游戏失败
+	gameOver:function(){
+		var self=this;
+		//撞击活动最大范围
 		if(self.firstX == $('.gameBox').width()|| self.firstX < 0||self.firstY == $('.gameBox').height()|| self.firstY<0){
 			clearInterval(self.snakeAction);
 			alert('失败');
 		}
-		for (var i = 1 ; i < $('.snake').length; i++) {
+		//撞击身体
+		for (var i = 2 ; i < $('.snake').length; i++) {
 			if(self.firstX == parseInt($('.snake').eq(i).css('right'))&&self.firstY == parseInt($('.snake').eq(i).css('top'))){
 				clearInterval(self.snakeAction);
 				alert('失败');
 			}
 		};
 	},
-	//键盘事件
-	directionEvent:function(){
-		var self=this;
-		$(document).bind('keydown',function(e){
-			if(self.key==1){
-				return;
-			}
-			if(e.keyCode==37){
-				if(self.directionGrid==-self.gridNum && self.direction=='right'){
-					return;
-				}
-				self.direction='right';
-				self.directionGrid=self.gridNum;
-				self.key=1;
-			}else if(e.keyCode==38){
-				if(self.directionGrid==self.gridNum && self.direction=='top'){
-					return;
-				}
-				self.direction='top';
-				self.directionGrid=-self.gridNum;
-			}else if(e.keyCode==39){
-				if(self.directionGrid==self.gridNum && self.direction=='right'){
-					return;
-				}
-				self.direction='right';
-				self.directionGrid=-self.gridNum;
-				self.key=1;
-			}else if(e.keyCode==40){
-				if(self.directionGrid==-self.gridNum && self.direction=='top'){
-					return;
-				}
-				self.direction='top';
-				self.directionGrid=self.gridNum;
-				self.key=1;
-			}
-		});
-	}
 };
