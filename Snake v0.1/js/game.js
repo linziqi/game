@@ -10,6 +10,7 @@ class_game.prototype={
 		self.snakeDom();
 		self.initEvent();
 		self.directionEvent();
+		self.score=0;
 	},
 	//键盘事件
 	directionEvent:function(){
@@ -63,6 +64,7 @@ class_game.prototype={
 				'<div class="newGame" style="display:none;">重来</div>'+
 				'<div class="pause">暂停</div>'+
 				'<div class="start" style="display:none;">开始</div>'+
+				'<div class="scoreBox">分数:0</div>'+
 			'</div>'+
 		'</div>';
 		$('body').html(template);
@@ -161,6 +163,9 @@ class_game.prototype={
 		if(self.firstX==self.foodX&&self.firstY==self.foodY){
 			$('.food').remove();
 			$('.gameBox').append('<div class="snake"></div>');
+			//分数
+			self.score++;
+			$('.scoreBox').html('分数:'+self.score);
 		}
 		//创建食物
 		if($('.food').length<1){

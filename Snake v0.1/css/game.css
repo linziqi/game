@@ -13,3 +13,4 @@ body{background:#ececec;}
 .btnBox .newGame{background: #33bc60;color:#fff;}
 .btnBox .pause{background: #ff6245;color:#fff;}
 .btnBox .start{background: #ffa445;color:#fff;}
+.btnBox .scoreBox{margin-top:20px;text-align:center;}
